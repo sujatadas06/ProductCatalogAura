@@ -1,0 +1,25 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,lightning:actionOverride" 
+                controller="ProductCatalogController"
+                access="global" >
+    <aura:attribute name="searchText" type="String"/>
+    <aura:attribute name="ProductList" type="List"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:registerEvent name="AddedProduct" type="c.AddToCartEvent"/>
+	<lightning:card title="Available Products">
+		<lightning:input aura:id="searchBox" 
+                         name="Search"
+                         Label="Search Product"
+                         type="search"
+                         value="{!v.searchText}"></lightning:input>
+        <aura:iteration items="{!v.ProductList}" var="product">
+            <div class="slds-has-dividers_bottom slds-has-block-links_space">
+            <table>
+                <tr colspan="2">
+            	<td width="80%" rowspan="2"><p><a href="{'/'+!product.id}">{!product.Name}</a></p></td>
+                <td width="20%"><lightning:button variant="success" label="Add to Cart" title="Add to Cart" onclick="{! c.addToCart }" value="{!product}"/></td>
+                </tr>
+            </table>
+            </div>
+        </aura:iteration>
+    </lightning:card>
+</aura:component>

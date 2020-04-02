@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="AddedProduct" type="Object" access="GLOBAL"/>
+</aura:event>

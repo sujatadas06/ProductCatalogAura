@@ -1,0 +1,39 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="SelectedProduct" type="List"/>
+    <aura:handler action="c.getSelectedProduct" event="c.AddToCartEvent"/>
+    <lightning:card title="ORDER DETAILS">
+        <aura:if isTrue="{!not(empty(v.SelectedProduct))}">
+        	<lightning:recordEditForm
+                aura:id="form"
+                onload="{!c.handleLoad}"
+                onsubmit="{!c.handleSubmit}"
+                objectApiName="Order">
+                <!-- the messages component is for error messages -->
+                <lightning:messages />    
+                <lightning:inputField fieldName="AccountId" Label="Account" required="true"/>
+                <lightning:inputField fieldName="EffectiveDate" />
+                <lightning:inputField fieldName="Status" />
+            </lightning:recordEditForm>
+       </aura:if>
+        <lightning:card title="My Cart">
+        <lightning:card title="Products in Cart">
+        <aura:iteration items="{!v.SelectedProduct}" var="product">
+            <div class="slds-has-dividers_bottom slds-has-block-links_space">
+            <table>
+                <tr colspan="2">
+            	<td width="80%" rowspan="2"><p><a href="{'/'+!product.id}">{!product.Name}</a></p></td>
+                <td width="20%"><lightning:button variant="destructive-text" label="Remove" title="Remove" onclick="{! c.removeFromCart }" value="{!v.product}"/></td>
+                </tr>
+            </table>
+            </div>
+        </aura:iteration>
+            
+    	</lightning:card>
+        <aura:if isTrue="{!not(empty(v.SelectedProduct))}">
+            <div class="slds-float_left">
+                <lightning:button variant="brand" type="submit" name="Checkout" label="Checkout"  onclick="{! c.checkout}" />
+            </div>
+        </aura:if>
+    </lightning:card> 
+    </lightning:card>    
+</aura:component>
